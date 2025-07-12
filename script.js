@@ -43,6 +43,7 @@ let dynastiesUnsubscribe = null;
 let currentDynastyId = null;
 let schoolsDataCache = null;
 let scheduleSaveTimer = null;
+let currentUserConferenceTeams = []; // NEW: To hold the user's current conference teams
 
 // --- UI Navigation & Helpers ---
 function showView(viewId) { views.forEach(v => v.classList.toggle('active', v.id === viewId)); }
@@ -124,6 +125,17 @@ async function loadDynastyDashboard(dynastyId) {
         const coachData = coachSnap.docs[0]?.data();
         const userTeam = schools[coachData.teamId];
 
+        // NEW: Determine user's conference for the current season
+        const userTeamId = coachData.teamId;
+        const conferences = dynastyData.conferences || {};
+        currentUserConferenceTeams = []; // Reset
+        for (const confName in conferences) {
+            if (conferences[confName].includes(userTeamId)) {
+                currentUserConferenceTeams = conferences[confName];
+                break;
+            }
+        }
+
         dynastyNavTitle.textContent = dynastyData.name;
         scheduleTeamLogo.src = userTeam.logoUrl || '';
         scheduleTeamName.textContent = userTeam.name;
@@ -160,7 +172,6 @@ function renderSchedulePage(dynastyData, schools) {
     scheduleTable.innerHTML = headerHtml + rowsHtml;
     scheduleTable.addEventListener('change', handleScheduleChange);
     
-    // Add listeners for custom dropdowns
     scheduleTable.querySelectorAll('.custom-select-display').forEach(el => el.addEventListener('click', (e) => {
         e.stopPropagation();
         const options = el.nextElementSibling;
@@ -172,17 +183,23 @@ function renderSchedulePage(dynastyData, schools) {
 
 function createCustomOpponentSelect(selectedId, schools) {
     const selectedSchool = schools[selectedId] || { id: 'BYE', name: 'BYE WEEK', logoUrl: '' };
+    const isConfGameSelected = currentUserConferenceTeams.includes(selectedSchool.id);
+    
     let optionsHtml = `<div class="custom-select-option" data-value="BYE">BYE WEEK</div>`;
     Object.values(schools).forEach(school => {
-        optionsHtml += `<div class="custom-select-option" data-value="${school.id}"><img src="${school.logoUrl || ''}" alt=""><span>${school.name}</span></div>`;
+        const isConf = currentUserConferenceTeams.includes(school.id);
+        const confIndicator = isConf ? '<span class="text-gray-400 ml-auto">(C)</span>' : '';
+        optionsHtml += `<div class="custom-select-option" data-value="${school.id}"><img src="${school.logoUrl || ''}" alt=""><span>${school.name}</span>${confIndicator}</div>`;
     });
 
+    const selectedConfIndicator = isConfGameSelected ? '<span class="text-gray-400 ml-2">(C)</span>' : '';
     return `
         <div class="custom-select-container">
             <input type="hidden" class="opponent-select-value" value="${selectedId || 'BYE'}">
             <div class="input-field custom-select-display">
                 <img src="${selectedSchool.logoUrl || ''}" alt="">
                 <span>${selectedSchool.name}</span>
+                ${selectedConfIndicator}
             </div>
             <div class="custom-select-options">${optionsHtml}</div>
         </div>`;
@@ -220,11 +237,18 @@ async function saveSchedule() {
 function updateRecord(schedule) {
     const wins = schedule.filter(g => g.result === 'W').length;
     const losses = schedule.filter(g => g.result === 'L').length;
-    scheduleRecord.textContent = `Record: ${wins} - ${losses}`;
-    scheduleRecord.style.color = wins >= losses ? '#22C55E' : '#EF4444'; // Green or Red
+    
+    // NEW: Calculate conference record
+    const confWins = schedule.filter(g => g.result === 'W' && currentUserConferenceTeams.includes(g.opponentId)).length;
+    const confLosses = schedule.filter(g => g.result === 'L' && currentUserConferenceTeams.includes(g.opponentId)).length;
+
+    const overallRecordText = `Record: ${wins}-${losses}`;
+    const confRecordText = `Conf: ${confWins}-${confLosses}`;
+    
+    scheduleRecord.innerHTML = `${overallRecordText} <span class="text-gray-400 font-normal ml-2">${confRecordText}</span>`;
+    scheduleRecord.style.color = wins >= losses ? '#22C55E' : '#EF4444'; // Green or Red for overall record
 }
 
-// Attach listeners to custom dropdown options after they are created
 scheduleTable.addEventListener('click', (e) => {
     if (e.target.closest('.custom-select-option')) {
         const option = e.target.closest('.custom-select-option');
@@ -233,12 +257,14 @@ scheduleTable.addEventListener('click', (e) => {
         const hiddenInput = container.querySelector('.opponent-select-value');
 
         hiddenInput.value = option.dataset.value;
-        display.innerHTML = option.innerHTML; // Copy the content (logo + name)
         
-        // Manually trigger a change event so the debounced save function runs
+        // Rebuild display content to include conference indicator if necessary
+        const selectedSchool = schoolsDataCache[option.dataset.value] || { name: 'BYE WEEK', logoUrl: '' };
+        const isConf = currentUserConferenceTeams.includes(option.dataset.value);
+        const confIndicator = isConf ? '<span class="text-gray-400 ml-2">(C)</span>' : '';
+        display.innerHTML = `<img src="${selectedSchool.logoUrl || ''}" alt=""><span>${selectedSchool.name}</span>${confIndicator}`;
+        
         hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
-        
-        // Close the dropdown
         option.parentElement.classList.remove('active');
     }
 });
