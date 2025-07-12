@@ -73,6 +73,15 @@ function showModal(modalId) {
     });
 }
 
+function showDynastyPage(pageIdToShow) {
+    document.querySelectorAll('.dynasty-page').forEach(page => {
+        page.classList.toggle('active', page.id === pageIdToShow);
+    });
+    document.querySelectorAll('#dynasty-nav .nav-link').forEach(link => {
+        link.classList.toggle('active', link.dataset.page === pageIdToShow);
+    });
+}
+
 // --- Event Listeners ---
 showRegisterLink.addEventListener('click', (e) => { e.preventDefault(); document.getElementById('login-form-container').classList.add('hidden'); document.getElementById('register-form-container').classList.remove('hidden'); });
 showLoginLink.addEventListener('click', (e) => { e.preventDefault(); document.getElementById('register-form-container').classList.add('hidden'); document.getElementById('login-form-container').classList.remove('hidden'); });
@@ -80,6 +89,13 @@ document.getElementById('create-dynasty-btn').addEventListener('click', () => sh
 cancelDynastyCreationBtn.addEventListener('click', () => showModal(null));
 cancelCoachCreationBtn.addEventListener('click', () => showModal(null));
 backToDynastiesBtn.addEventListener('click', () => showView('app-view'));
+
+document.querySelectorAll('#dynasty-nav .nav-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        showDynastyPage(link.dataset.page);
+    });
+});
 
 // --- Auth Logic ---
 onAuthStateChanged(auth, (user) => {
@@ -137,7 +153,6 @@ async function loadDynastyDashboard(dynastyId) {
         const dynastySnap = await getDoc(dynastyRef);
         const dynastyData = dynastySnap.data();
 
-        // Fetch the user's coach for this dynasty
         const coachesQuery = query(collection(dynastyRef, 'coaches'), limit(1));
         const coachSnap = await getDocs(coachesQuery);
         const coachData = coachSnap.docs[0]?.data();
@@ -145,13 +160,13 @@ async function loadDynastyDashboard(dynastyId) {
         const schools = await fetchSchoolsData();
         const userTeam = schools[coachData.teamId];
 
-        // Populate header and nav
         dynastyNavTitle.textContent = dynastyData.name;
         scheduleTeamLogo.src = userTeam.logoUrl || 'https://placehold.co/64x64/374151/FFFFFF?text=?';
         scheduleTeamName.textContent = userTeam.name;
         scheduleYear.textContent = `${dynastyData.currentYear || 2025} Schedule`;
 
         renderSchedulePage(dynastyData, schools);
+        showDynastyPage('schedule-page'); // Make the schedule page visible
 
     } catch (error) {
         console.error("Error loading dynasty dashboard:", error);
