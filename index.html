@@ -16,7 +16,7 @@
     <div id="app-container" class="min-h-screen p-4">
 
         <!-- Auth View (Login/Register) -->
-        <div id="auth-view" class="view w-full max-w-md mx-auto">
+        <div id="auth-view" class="view active w-full max-w-md mx-auto">
             <!-- Header -->
             <div class="text-center mb-8">
                 <h1 class="text-4xl md:text-5xl font-bold text-white">College Football 26</h1>
@@ -46,7 +46,7 @@
         </div>
 
         <!-- Main App View (Dashboard of all Dynasties) -->
-        <div id="app-view" class="view hidden-view w-full max-w-4xl mx-auto">
+        <div id="app-view" class="view w-full max-w-4xl mx-auto">
             <div class="bg-gray-800 p-8 rounded-lg shadow-lg">
                 <div class="flex justify-between items-center mb-6">
                     <div><h3 class="text-2xl font-bold">Welcome!</h3><p class="text-gray-400" id="user-email-display"></p></div>
@@ -62,18 +62,18 @@
             </div>
         </div>
 
-        <!-- NEW: Dynasty-Specific View -->
-        <div id="dynasty-view" class="view hidden-view w-full max-w-7xl mx-auto">
+        <!-- Dynasty-Specific View -->
+        <div id="dynasty-view" class="view w-full max-w-7xl mx-auto">
             <div class="flex flex-col md:flex-row gap-6">
                 <!-- Left Nav Panel -->
                 <div class="w-full md:w-1/4 lg:w-1/5 bg-gray-800 p-4 rounded-lg shadow-lg">
                     <button id="back-to-dynasties-btn" class="w-full text-left mb-4 text-blue-400 hover:underline">&larr; Back to All Dynasties</button>
                     <h3 id="dynasty-nav-title" class="text-xl font-bold mb-4 border-b border-gray-700 pb-2"></h3>
                     <nav id="dynasty-nav" class="space-y-2">
-                        <a href="#" class="nav-link active">Schedule</a>
-                        <a href="#" class="nav-link">Roster</a>
-                        <a href="#" class="nav-link">Recruiting</a>
-                        <a href="#" class="nav-link">Coach Info</a>
+                        <a href="#" class="nav-link" data-page="schedule-page">Schedule</a>
+                        <a href="#" class="nav-link" data-page="roster-page">Roster</a>
+                        <a href="#" class="nav-link" data-page="recruiting-page">Recruiting</a>
+                        <a href="#" class="nav-link" data-page="coach-info-page">Coach Info</a>
                     </nav>
                 </div>
                 <!-- Main Content Panel -->
@@ -92,12 +92,15 @@
                         </div>
                     </div>
                     <!-- Other pages like Roster, Recruiting will go here -->
+                     <div id="roster-page" class="dynasty-page"><h2 class="text-2xl font-bold">Roster</h2><p>Roster management coming soon.</p></div>
+                     <div id="recruiting-page" class="dynasty-page"><h2 class="text-2xl font-bold">Recruiting</h2><p>Recruiting board coming soon.</p></div>
+                     <div id="coach-info-page" class="dynasty-page"><h2 class="text-2xl font-bold">Coach Info</h2><p>Coach details coming soon.</p></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modals (remain unchanged but are still used) -->
+    <!-- Modals -->
     <div id="create-dynasty-modal" class="modal"><div class="modal-content"><h3 class="text-2xl font-bold mb-6">Create a New Dynasty</h3><form id="create-dynasty-form"><div class="mb-4"><label for="dynasty-name" class="block text-gray-300 mb-2">Dynasty Name</label><input type="text" id="dynasty-name" class="w-full input-field" required placeholder="e.g., My Georgia Tech Dynasty"></div><p id="dynasty-create-error" class="text-red-500 text-center mb-4"></p><div class="flex justify-end space-x-4"><button type="button" id="cancel-dynasty-creation" class="btn-secondary">Cancel</button><button type="submit" class="btn-primary">Create</button></div></form></div></div>
     <div id="create-coach-modal" class="modal"><div class="modal-content-lg"><h3 class="text-2xl font-bold mb-6">Create Your Coach</h3><form id="create-coach-form" class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4"><div><label for="coach-first-name" class="block text-gray-300 mb-2">First Name</label><input type="text" id="coach-first-name" class="w-full input-field" required></div><div><label for="coach-last-name" class="block text-gray-300 mb-2">Last Name</label><input type="text" id="coach-last-name" class="w-full input-field" required></div><div class="md:col-span-2"><label for="coach-hometown" class="block text-gray-300 mb-2">Hometown</label><input type="text" id="coach-hometown" class="w-full input-field" required placeholder="e.g., Atlanta, GA"></div><div><label for="coach-alma-mater" class="block text-gray-300 mb-2">Alma Mater</label><select id="coach-alma-mater" class="w-full input-field" required></select></div><div><label for="coach-age" class="block text-gray-300 mb-2">Age</label><input type="number" id="coach-age" class="w-full input-field" required min="22" max="80" value="45"></div><div><label for="coach-job" class="block text-gray-300 mb-2">Starting Job</label><select id="coach-job" class="w-full input-field" required><option value="HC">Head Coach (HC)</option><option value="OC">Offensive Coordinator (OC)</option><option value="DC">Defensive Coordinator (DC)</option></select></div><div><label for="coach-school" class="block text-gray-300 mb-2">Team</label><select id="coach-school" class="w-full input-field" required></select></div><p id="coach-create-error" class="text-red-500 text-center md:col-span-2"></p><div class="md:col-span-2 flex justify-end space-x-4 mt-4"><button type="button" id="cancel-coach-creation" class="btn-secondary">Cancel</button><button type="submit" class="btn-primary">Start Career</button></div></form></div></div>
 
