@@ -1,0 +1,24 @@
+/* Custom styles */
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+/* Simple transition for view switching */
+.view {
+    transition: opacity 0.3s ease-in-out;
+}
+
+.hidden-view {
+    opacity: 0;
+    /* Prevent interaction with the hidden element */
+    pointer-events: none;
+    position: absolute;
+    /* Ensure it doesn't take up space in the layout */
+    top: -9999px; 
+    left: -9999px;
+}
+
+/* Ensure the visible form container within the auth view is not hidden */
+#auth-view .bg-gray-800:not(.hidden) {
+    display: block;
+}
