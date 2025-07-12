@@ -17,19 +17,16 @@ import {
 } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
 // --- Firebase Configuration ---
-// These variables are placeholders and will be provided by the environment.
-// IMPORTANT: In a real-world scenario, you would replace these with your actual
-// Firebase config values if not using an environment that provides them.
-const firebaseConfig = typeof __firebase_config !== 'undefined' 
-    ? JSON.parse(__firebase_config) 
-    : { 
-        apiKey: "YOUR_API_KEY", 
-        authDomain: "YOUR_AUTH_DOMAIN", 
-        projectId: "YOUR_PROJECT_ID", 
-        storageBucket: "YOUR_STORAGE_BUCKET", 
-        messagingSenderId: "YOUR_SENDER_ID", 
-        appId: "YOUR_APP_ID" 
-    };
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBiPO53KX8YRgDzH7yi62kfkhNNjL8r8Sc",
+  authDomain: "cfb-tracker.firebaseapp.com",
+  projectId: "cfb-tracker",
+  storageBucket: "cfb-tracker.firebasestorage.app",
+  messagingSenderId: "941451486290",
+  appId: "1:941451486290:web:2b90e9c73c56cf1d992b8b",
+  measurementId: "G-MGZ78ZM0Q6"
+};
 
 const appId = typeof __app_id !== 'undefined' ? __app_id : 'cfb26-dynasty-tracker';
 
