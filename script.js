@@ -5,9 +5,7 @@ import {
     createUserWithEmailAndPassword, 
     signInWithEmailAndPassword, 
     signOut, 
-    onAuthStateChanged,
-    signInAnonymously,
-    signInWithCustomToken
+    onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 import { 
     getFirestore, 
@@ -17,18 +15,16 @@ import {
 } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
 // --- Firebase Configuration ---
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// This is the one and only configuration used for the app, taken directly from your Firebase project.
 const firebaseConfig = {
   apiKey: "AIzaSyBiPO53KX8YRgDzH7yi62kfkhNNjL8r8Sc",
   authDomain: "cfb-tracker.firebaseapp.com",
   projectId: "cfb-tracker",
-  storageBucket: "cfb-tracker.firebasestorage.app",
+  storageBucket: "cfb-tracker.appspot.com",
   messagingSenderId: "941451486290",
   appId: "1:941451486290:web:2b90e9c73c56cf1d992b8b",
   measurementId: "G-MGZ78ZM0Q6"
 };
-
-const appId = typeof __app_id !== 'undefined' ? __app_id : 'cfb26-dynasty-tracker';
 
 // --- Initialize Firebase ---
 const app = initializeApp(firebaseConfig);
@@ -108,7 +104,8 @@ registerForm.addEventListener('submit', async (e) => {
         const user = userCredential.user;
         
         // Create a user profile document in Firestore to store user-specific data
-        const userDocRef = doc(db, `artifacts/${appId}/users/${user.uid}/profile`, 'info');
+        // The path now uses your actual project ID for the artifact collection.
+        const userDocRef = doc(db, `artifacts/cfb-tracker/users/${user.uid}/profile`, 'info');
         await setDoc(userDocRef, {
             email: user.email,
             createdAt: serverTimestamp(),
@@ -149,16 +146,3 @@ logoutButton.addEventListener('click', async () => {
         console.error('Logout Error:', error);
     }
 });
-
-// Initial check for a custom token provided by the environment (if applicable).
-(async () => {
-    try {
-        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-            await signInWithCustomToken(auth, __initial_auth_token);
-        } else if (!auth.currentUser) {
-            console.log("No initial auth token found. Waiting for user login.");
-        }
-    } catch (error) {
-        console.error("Error with initial authentication:", error);
-    }
-})();
