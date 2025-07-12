@@ -23,7 +23,21 @@ body {
     display: block;
 }
 
-/* Style for the modal so it can center its content */
-#create-dynasty-modal.flex {
+/* Style for the modals so they can center their content */
+#create-dynasty-modal.flex, #create-coach-modal.flex {
     display: flex;
+}
+
+/* Reusable class for form inputs */
+.input-field {
+    background-color: #374151; /* bg-gray-700 */
+    border: 1px solid #4B5563; /* border-gray-600 */
+    border-radius: 0.375rem; /* rounded-md */
+    padding: 0.5rem 1rem;
+    width: 100%;
+}
+.input-field:focus {
+    outline: none;
+    --tw-ring-color: #3B82F6; /* ring-blue-500 */
+    box-shadow: 0 0 0 2px var(--tw-ring-color);
 }
