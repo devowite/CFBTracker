@@ -25,73 +25,45 @@
             <!-- Login/Register forms -->
             <div id="login-form-container" class="bg-gray-800 p-8 rounded-lg shadow-lg">
                 <h3 class="text-2xl font-bold mb-6 text-center">Sign In</h3>
-                <form id="login-form">
-                    <div class="mb-4"><label for="login-email" class="block text-gray-300 mb-2">Email</label><input type="email" id="login-email" class="w-full input-field" required></div>
-                    <div class="mb-6"><label for="login-password" class="block text-gray-300 mb-2">Password</label><input type="password" id="login-password" class="w-full input-field" required></div>
-                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition duration-300">Login</button>
-                </form>
-                <p id="login-error" class="text-red-500 text-center mt-4"></p>
-                <p class="text-center mt-4 text-gray-400">Don't have an account? <a href="#" id="show-register-link" class="text-blue-400 hover:underline">Sign Up</a></p>
+                <form id="login-form"><div class="mb-4"><label for="login-email" class="block text-gray-300 mb-2">Email</label><input type="email" id="login-email" class="w-full input-field" required></div><div class="mb-6"><label for="login-password" class="block text-gray-300 mb-2">Password</label><input type="password" id="login-password" class="w-full input-field" required></div><button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition duration-300">Login</button></form>
+                <p id="login-error" class="text-red-500 text-center mt-4"></p><p class="text-center mt-4 text-gray-400">Don't have an account? <a href="#" id="show-register-link" class="text-blue-400 hover:underline">Sign Up</a></p>
             </div>
             <div id="register-form-container" class="bg-gray-800 p-8 rounded-lg shadow-lg hidden">
                 <h3 class="text-2xl font-bold mb-6 text-center">Create Account</h3>
-                <form id="register-form">
-                    <div class="mb-4"><label for="register-email" class="block text-gray-300 mb-2">Email</label><input type="email" id="register-email" class="w-full input-field" required></div>
-                    <div class="mb-6"><label for="register-password" class="block text-gray-300 mb-2">Password</label><input type="password" id="register-password" class="w-full input-field" required></div>
-                    <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md transition duration-300">Register</button>
-                </form>
-                <p id="register-error" class="text-red-500 text-center mt-4"></p>
-                <p class="text-center mt-4 text-gray-400">Already have an account? <a href="#" id="show-login-link" class="text-blue-400 hover:underline">Sign In</a></p>
+                <form id="register-form"><div class="mb-4"><label for="register-email" class="block text-gray-300 mb-2">Email</label><input type="email" id="register-email" class="w-full input-field" required></div><div class="mb-6"><label for="register-password" class="block text-gray-300 mb-2">Password</label><input type="password" id="register-password" class="w-full input-field" required></div><button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md transition duration-300">Register</button></form>
+                <p id="register-error" class="text-red-500 text-center mt-4"></p><p class="text-center mt-4 text-gray-400">Already have an account? <a href="#" id="show-login-link" class="text-blue-400 hover:underline">Sign In</a></p>
             </div>
         </div>
 
         <!-- Main App View (Dashboard of all Dynasties) -->
         <div id="app-view" class="view w-full max-w-4xl mx-auto">
-            <div class="bg-gray-800 p-8 rounded-lg shadow-lg">
-                <div class="flex justify-between items-center mb-6">
-                    <div><h3 class="text-2xl font-bold">Welcome!</h3><p class="text-gray-400" id="user-email-display"></p></div>
-                    <button id="logout-button" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md transition duration-300">Logout</button>
-                </div>
-                <div class="border-t border-gray-700 pt-6">
-                    <div class="flex justify-between items-center mb-4">
-                        <h4 class="text-xl font-semibold">Your Dynasties</h4>
-                        <button id="create-dynasty-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">+ Create New Dynasty</button>
-                    </div>
-                    <div id="dynasties-list" class="mt-4 space-y-3"></div>
-                </div>
-            </div>
+            <div class="bg-gray-800 p-8 rounded-lg shadow-lg"><div class="flex justify-between items-center mb-6"><div><h3 class="text-2xl font-bold">Welcome!</h3><p class="text-gray-400" id="user-email-display"></p></div><button id="logout-button" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md transition duration-300">Logout</button></div><div class="border-t border-gray-700 pt-6"><div class="flex justify-between items-center mb-4"><h4 class="text-xl font-semibold">Your Dynasties</h4><button id="create-dynasty-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">+ Create New Dynasty</button></div><div id="dynasties-list" class="mt-4 space-y-3"></div></div></div>
         </div>
 
         <!-- Dynasty-Specific View -->
         <div id="dynasty-view" class="view w-full max-w-7xl mx-auto">
             <div class="flex flex-col md:flex-row gap-6">
                 <!-- Left Nav Panel -->
-                <div class="w-full md:w-1/4 lg:w-1/5 bg-gray-800 p-4 rounded-lg shadow-lg">
-                    <button id="back-to-dynasties-btn" class="w-full text-left mb-4 text-blue-400 hover:underline">&larr; Back to All Dynasties</button>
-                    <h3 id="dynasty-nav-title" class="text-xl font-bold mb-4 border-b border-gray-700 pb-2"></h3>
-                    <nav id="dynasty-nav" class="space-y-2">
-                        <a href="#" class="nav-link" data-page="schedule-page">Schedule</a>
-                        <a href="#" class="nav-link" data-page="roster-page">Roster</a>
-                        <a href="#" class="nav-link" data-page="recruiting-page">Recruiting</a>
-                        <a href="#" class="nav-link" data-page="coach-info-page">Coach Info</a>
-                    </nav>
-                </div>
+                <div class="w-full md:w-1/4 lg:w-1/5 bg-gray-800 p-4 rounded-lg shadow-lg"><button id="back-to-dynasties-btn" class="w-full text-left mb-4 text-blue-400 hover:underline">&larr; Back to All Dynasties</button><h3 id="dynasty-nav-title" class="text-xl font-bold mb-4 border-b border-gray-700 pb-2"></h3><nav id="dynasty-nav" class="space-y-2"><a href="#" class="nav-link" data-page="schedule-page">Schedule</a><a href="#" class="nav-link" data-page="roster-page">Roster</a><a href="#" class="nav-link" data-page="recruiting-page">Recruiting</a><a href="#" class="nav-link" data-page="coach-info-page">Coach Info</a></nav></div>
                 <!-- Main Content Panel -->
                 <div class="w-full md:w-3/4 lg:w-4/5 bg-gray-800 p-6 rounded-lg shadow-lg">
                     <!-- Schedule Page Content -->
                     <div id="schedule-page" class="dynasty-page">
                         <div class="flex items-center gap-4 mb-6">
-                            <img id="schedule-team-logo" src="" alt="Team Logo" class="h-16 w-16">
+                            <img id="schedule-team-logo" src="" alt="Team Logo" class="h-16 w-16 object-contain">
                             <div>
                                 <h2 id="schedule-team-name" class="text-3xl font-bold"></h2>
-                                <p id="schedule-year" class="text-xl text-gray-400"></p>
+                                <div class="flex items-center gap-4">
+                                    <p id="schedule-year" class="text-xl text-gray-400"></p>
+                                    <p id="schedule-record" class="text-xl font-semibold"></p>
+                                </div>
                             </div>
                         </div>
                         <div id="schedule-table" class="space-y-2">
                             <!-- Schedule rows will be generated by JS -->
                         </div>
                     </div>
-                    <!-- Other pages like Roster, Recruiting will go here -->
+                    <!-- Other pages -->
                      <div id="roster-page" class="dynasty-page"><h2 class="text-2xl font-bold">Roster</h2><p>Roster management coming soon.</p></div>
                      <div id="recruiting-page" class="dynasty-page"><h2 class="text-2xl font-bold">Recruiting</h2><p>Recruiting board coming soon.</p></div>
                      <div id="coach-info-page" class="dynasty-page"><h2 class="text-2xl font-bold">Coach Info</h2><p>Coach details coming soon.</p></div>
