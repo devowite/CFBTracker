@@ -22,3 +22,8 @@ body {
 #auth-view .bg-gray-800:not(.hidden) {
     display: block;
 }
+
+/* Style for the modal so it can center its content */
+#create-dynasty-modal.flex {
+    display: flex;
+}
