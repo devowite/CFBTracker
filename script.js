@@ -80,16 +80,26 @@ showLoginLink.addEventListener('click', (e) => { e.preventDefault(); registerFor
 
 // --- Modal UI Logic ---
 createDynastyBtn.addEventListener('click', () => { createDynastyModal.classList.remove('hidden'); createDynastyModal.classList.add('flex'); });
-cancelDynastyCreationBtn.addEventListener('click', () => { createDynastyModal.classList.add('hidden'); createDynastyModal.classList.remove('flex'); createDynastyForm.reset(); dynastyCreateError.textContent = ''; });
 
-// NEW: Coach modal logic
-cancelCoachCreationBtn.addEventListener('click', () => {
+// Hides the dynasty creation modal
+function hideDynastyModal() {
+    createDynastyModal.classList.add('hidden');
+    createDynastyModal.classList.remove('flex');
+    createDynastyForm.reset();
+    dynastyCreateError.textContent = '';
+}
+cancelDynastyCreationBtn.addEventListener('click', hideDynastyModal);
+
+
+// Hides the coach creation modal
+function hideCoachModal() {
     createCoachModal.classList.add('hidden');
     createCoachModal.classList.remove('flex');
     createCoachForm.reset();
     coachCreateError.textContent = '';
     currentDynastyId = null; // Clear the dynasty ID on cancel
-});
+}
+cancelCoachCreationBtn.addEventListener('click', hideCoachModal);
 
 
 // --- Firebase Auth Logic ---
@@ -157,7 +167,7 @@ createDynastyForm.addEventListener('submit', async (e) => {
         });
 
         // Hide dynasty modal and show coach modal
-        cancelDynastyCreationBtn.click(); // Hide and reset the form
+        hideDynastyModal();
         currentDynastyId = newDynastyDoc.id; // Store the new dynasty's ID
         showCoachCreationModal(schoolSnapshot); // Show the next step
 
@@ -167,7 +177,7 @@ createDynastyForm.addEventListener('submit', async (e) => {
     }
 });
 
-// NEW: Show and populate the coach creation modal
+// Show and populate the coach creation modal
 function showCoachCreationModal(schoolSnapshot) {
     let optionsHtml = '<option value="">Select a school...</option>';
     schoolSnapshot.forEach(doc => {
@@ -181,7 +191,7 @@ function showCoachCreationModal(schoolSnapshot) {
     createCoachModal.classList.add('flex');
 }
 
-// NEW: Handle the creation of a new coach
+// Handle the creation of a new coach
 createCoachForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const user = auth.currentUser;
@@ -212,7 +222,7 @@ createCoachForm.addEventListener('submit', async (e) => {
         await addDoc(coachesRef, coachData);
         
         // Success, close the modal
-        cancelCoachCreationBtn.click();
+        hideCoachModal();
 
     } catch (error) {
         console.error("Error creating coach: ", error);
