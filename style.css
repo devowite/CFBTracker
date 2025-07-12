@@ -9,112 +9,43 @@ body {
 .view.active { display: block; }
 
 /* Modal Styles */
-.modal {
-    position: fixed;
-    inset: 0;
-    background-color: rgba(0, 0, 0, 0.7);
-    display: none; /* Initially hidden */
-    align-items: center;
-    justify-content: center;
-}
-.modal.active {
-    display: flex;
-}
-.modal-content {
-    background-color: #1F2937; /* bg-gray-800 */
-    padding: 2rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    width: 100%;
-    max-width: 28rem; /* max-w-md */
-}
-.modal-content-lg {
-    background-color: #1F2937;
-    padding: 2rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    width: 100%;
-    max-width: 36rem; /* max-w-lg */
-}
-
+.modal { position: fixed; inset: 0; background-color: rgba(0, 0, 0, 0.7); display: none; align-items: center; justify-content: center; z-index: 50; }
+.modal.active { display: flex; }
+.modal-content { background-color: #1F2937; padding: 2rem; border-radius: 0.5rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); width: 100%; max-width: 28rem; }
+.modal-content-lg { background-color: #1F2937; padding: 2rem; border-radius: 0.5rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); width: 100%; max-width: 36rem; }
 
 /* Form & Button Styles */
-.input-field {
-    background-color: #374151; /* bg-gray-700 */
-    border: 1px solid #4B5563; /* border-gray-600 */
-    border-radius: 0.375rem; /* rounded-md */
-    padding: 0.5rem 1rem;
-    width: 100%;
-    color: white;
-}
-.input-field:focus {
-    outline: none;
-    --tw-ring-color: #3B82F6; /* ring-blue-500 */
-    box-shadow: 0 0 0 2px var(--tw-ring-color);
-}
-.btn-primary {
-    background-color: #2563EB; /* bg-blue-600 */
-    color: white;
-    font-weight: bold;
-    padding: 0.5rem 1rem;
-    border-radius: 0.375rem;
-}
+.input-field { background-color: #374151; border: 1px solid #4B5563; border-radius: 0.375rem; padding: 0.5rem 1rem; width: 100%; color: white; }
+.input-field:focus { outline: none; --tw-ring-color: #3B82F6; box-shadow: 0 0 0 2px var(--tw-ring-color); }
+.btn-primary { background-color: #2563EB; color: white; font-weight: bold; padding: 0.5rem 1rem; border-radius: 0.375rem; }
 .btn-primary:hover { background-color: #1D4ED8; }
-.btn-secondary {
-    background-color: #4B5563; /* bg-gray-600 */
-    color: white;
-    font-weight: bold;
-    padding: 0.5rem 1rem;
-    border-radius: 0.375rem;
-}
+.btn-secondary { background-color: #4B5563; color: white; font-weight: bold; padding: 0.5rem 1rem; border-radius: 0.375rem; }
 .btn-secondary:hover { background-color: #6B7280; }
 
-
 /* Dynasty Dashboard Styles */
-.nav-link {
-    display: block;
-    padding: 0.5rem 1rem;
-    border-radius: 0.375rem;
-    color: #D1D5DB; /* text-gray-300 */
-    transition: background-color 0.2s;
-}
-.nav-link:hover {
-    background-color: #374151; /* bg-gray-700 */
-}
-.nav-link.active {
-    background-color: #2563EB; /* bg-blue-600 */
-    color: white;
-    font-weight: 600;
-}
-.dynasty-page {
-    display: none; /* Pages are hidden by default */
-}
-.dynasty-page.active {
-    display: block;
-}
+.nav-link { display: block; padding: 0.5rem 1rem; border-radius: 0.375rem; color: #D1D5DB; transition: background-color 0.2s; }
+.nav-link:hover { background-color: #374151; }
+.nav-link.active { background-color: #2563EB; color: white; font-weight: 600; }
+.dynasty-page { display: none; }
+.dynasty-page.active { display: block; }
 
 /* Schedule Table Styles */
-.schedule-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr 2fr 1fr 1.5fr;
-    gap: 0.75rem;
-    align-items: center;
-    padding: 0.5rem;
-    border-radius: 0.375rem;
-}
-.schedule-row:nth-child(odd) {
-    background-color: #1F2937; /* bg-gray-800 */
-}
-.schedule-row-header {
-    font-weight: bold;
-    color: #9CA3AF; /* text-gray-400 */
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid #4B5563; /* border-gray-600 */
-}
-.schedule-week-label {
-    font-weight: 600;
-}
-.score-input {
-    width: 4rem;
-    text-align: center;
-}
+.schedule-row { display: grid; grid-template-columns: 1fr 1fr 2.5fr 1fr 2fr; gap: 0.75rem; align-items: center; padding: 0.5rem; border-radius: 0.375rem; }
+.schedule-row:nth-child(odd) { background-color: #1F2937; }
+.schedule-row-header { font-weight: bold; color: #9CA3AF; padding-bottom: 0.5rem; border-bottom: 1px solid #4B5563; }
+.schedule-week-label { font-weight: 600; }
+.score-input { width: 5rem; text-align: center; }
+
+/* Result Dropdown Colors */
+.result-select.result-win { background-color: #166534; color: white; } /* Green */
+.result-select.result-loss { background-color: #991B1B; color: white; } /* Red */
+
+/* Custom Dropdown with Logos */
+.custom-select-container { position: relative; }
+.custom-select-display { display: flex; align-items: center; gap: 0.5rem; cursor: pointer; }
+.custom-select-display img { height: 1.5rem; width: 1.5rem; object-fit: contain; }
+.custom-select-options { position: absolute; top: 100%; left: 0; right: 0; background-color: #374151; border: 1px solid #4B5563; border-radius: 0.375rem; max-height: 200px; overflow-y: auto; z-index: 10; display: none; }
+.custom-select-options.active { display: block; }
+.custom-select-option { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; cursor: pointer; }
+.custom-select-option:hover { background-color: #4B5563; }
+.custom-select-option img { height: 1.5rem; width: 1.5rem; object-fit: contain; }
