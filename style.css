@@ -1,43 +1,120 @@
 /* Custom styles */
 body {
     font-family: 'Inter', sans-serif;
+    background-color: #111827; /* bg-gray-900 */
 }
 
-/* Simple transition for view switching */
-.view {
-    transition: opacity 0.3s ease-in-out;
-}
+/* View Switching */
+.view { display: none; }
+.view.active { display: block; }
 
-.hidden-view {
-    opacity: 0;
-    /* Prevent interaction with the hidden element */
-    pointer-events: none;
-    position: absolute;
-    /* Ensure it doesn't take up space in the layout */
-    top: -9999px; 
-    left: -9999px;
+/* Modal Styles */
+.modal {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: none; /* Initially hidden */
+    align-items: center;
+    justify-content: center;
 }
-
-/* Ensure the visible form container within the auth view is not hidden */
-#auth-view .bg-gray-800:not(.hidden) {
-    display: block;
-}
-
-/* Style for the modals so they can center their content */
-#create-dynasty-modal.flex, #create-coach-modal.flex {
+.modal.active {
     display: flex;
 }
+.modal-content {
+    background-color: #1F2937; /* bg-gray-800 */
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    width: 100%;
+    max-width: 28rem; /* max-w-md */
+}
+.modal-content-lg {
+    background-color: #1F2937;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    width: 100%;
+    max-width: 36rem; /* max-w-lg */
+}
 
-/* Reusable class for form inputs */
+
+/* Form & Button Styles */
 .input-field {
     background-color: #374151; /* bg-gray-700 */
     border: 1px solid #4B5563; /* border-gray-600 */
     border-radius: 0.375rem; /* rounded-md */
     padding: 0.5rem 1rem;
     width: 100%;
+    color: white;
 }
 .input-field:focus {
     outline: none;
     --tw-ring-color: #3B82F6; /* ring-blue-500 */
     box-shadow: 0 0 0 2px var(--tw-ring-color);
+}
+.btn-primary {
+    background-color: #2563EB; /* bg-blue-600 */
+    color: white;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+}
+.btn-primary:hover { background-color: #1D4ED8; }
+.btn-secondary {
+    background-color: #4B5563; /* bg-gray-600 */
+    color: white;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+}
+.btn-secondary:hover { background-color: #6B7280; }
+
+
+/* Dynasty Dashboard Styles */
+.nav-link {
+    display: block;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    color: #D1D5DB; /* text-gray-300 */
+    transition: background-color 0.2s;
+}
+.nav-link:hover {
+    background-color: #374151; /* bg-gray-700 */
+}
+.nav-link.active {
+    background-color: #2563EB; /* bg-blue-600 */
+    color: white;
+    font-weight: 600;
+}
+.dynasty-page {
+    display: none; /* Pages are hidden by default */
+}
+.dynasty-page.active {
+    display: block;
+}
+
+/* Schedule Table Styles */
+.schedule-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr 1fr 1.5fr;
+    gap: 0.75rem;
+    align-items: center;
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+}
+.schedule-row:nth-child(odd) {
+    background-color: #1F2937; /* bg-gray-800 */
+}
+.schedule-row-header {
+    font-weight: bold;
+    color: #9CA3AF; /* text-gray-400 */
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #4B5563; /* border-gray-600 */
+}
+.schedule-week-label {
+    font-weight: 600;
+}
+.score-input {
+    width: 4rem;
+    text-align: center;
 }
