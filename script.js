@@ -138,22 +138,63 @@ async function fetchSchoolsData() { if (schoolsDataCache) return schoolsDataCach
 async function fetchConferencesData() { if (conferencesDataCache) return conferencesDataCache; const snapshot = await getDocs(collection(db, 'conferences')); conferencesDataCache = {}; snapshot.forEach(doc => { conferencesDataCache[doc.id] = { id: doc.id, ...doc.data() }; }); return conferencesDataCache; }
 
 // --- Dynasty List & Dashboard Loading ---
+// --- Dynasty List & Dashboard Loading ---
+// --- Dynasty List & Dashboard Loading ---
 function listenForDynasties(userId) {
     const ref = collection(db, `artifacts/cfb-tracker/users/${userId}/dynasties`);
     dynastiesUnsubscribe = onSnapshot(ref, (snapshot) => {
-        dynastiesList.innerHTML = snapshot.empty ? '<p class="text-gray-500">No dynasties yet.</p>' : '';
-        snapshot.docs.forEach(doc => {
+        if (snapshot.empty) {
+            dynastiesList.innerHTML = '<p class="text-gray-500">No dynasties yet.</p>';
+            return;
+        }
+
+        dynastiesList.innerHTML = ''; // Clear the list to re-render
+
+        snapshot.docs.forEach(async (doc) => {
             const dynasty = doc.data();
-            let div = dynastiesList.querySelector(`[data-id="${doc.id}"]`);
-            if (!div) {
-                div = document.createElement('div');
-                div.className = "bg-gray-700 p-4 rounded-md hover:bg-gray-600 cursor-pointer";
-                div.dataset.id = doc.id;
-                dynastiesList.appendChild(div);
-            }
-            const createdDate = dynasty.createdAt ? dynasty.createdAt.toDate().toLocaleDateString() : 'Processing...';
-            div.innerHTML = `<h5 class="font-bold text-lg">${dynasty.name}</h5><p class="text-sm text-gray-400">Created: ${createdDate}</p>`;
-            div.onclick = () => loadDynastyDashboard(doc.id);
+            const dynastyId = doc.id;
+
+            // Fetch the coach for this dynasty
+            const coachRef = collection(db, `artifacts/cfb-tracker/users/${userId}/dynasties/${dynastyId}/coaches`);
+            const coachSnap = await getDocs(query(coachRef, limit(1)));
+            const coachData = coachSnap.empty ? null : coachSnap.docs[0].data();
+
+            // Get team data from cache
+            const teamData = coachData && schoolsDataCache ? schoolsDataCache[coachData.teamId] : null;
+
+            // Calculate record from the schedule
+            const schedule = dynasty.schedule || [];
+            const records = calculateRecords(schedule); // This function already exists in your code
+
+            // Create the list item element
+            let div = document.createElement('div');
+            div.className = "bg-gray-700 p-4 rounded-md hover:bg-gray-600 cursor-pointer";
+            div.dataset.id = dynastyId;
+
+            // Construct the new inner HTML for the dynasty card
+            const coachName = coachData ? `${coachData.firstName} ${coachData.lastName}` : 'No coach';
+            const coachRole = coachData ? coachData.job : 'N/A';
+            const teamName = teamData ? teamData.name : 'No Team';
+            const teamLogoUrl = teamData ? teamData.logoUrl : '';
+            const record = `${records.overall.wins}-${records.overall.losses}`;
+
+            div.innerHTML = `
+                <div class="flex items-center gap-4">
+                    <img src="${teamLogoUrl}" alt="Team Logo" class="h-12 w-12 object-contain flex-shrink-0">
+                    <div class="flex-grow">
+                        <h5 class="font-bold text-lg">${dynasty.name}</h5>
+                        <div class="mt-1 text-sm text-gray-300 grid grid-cols-2 gap-x-4 gap-y-1">
+                            <div><strong>Team:</strong> ${teamName}</div>
+                            <div><strong>Record:</strong> ${record}</div>
+                            <div><strong>Coach:</strong> ${coachName}</div>
+                            <div><strong>Role:</strong> ${coachRole}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            div.onclick = () => loadDynastyDashboard(dynastyId);
+            dynastiesList.appendChild(div);
         });
     });
 }
@@ -363,54 +404,65 @@ function renderClassDistributionTable(rosterData) {
     const table = document.getElementById('class-distribution-table');
     if (!table) return;
 
-    const distribution = POSITIONS.reduce((acc, pos) => {
-        acc[pos] = { FR: 0, SO: 0, JR: 0, SR: 0, Total: 0 };
-        return acc;
-    }, {});
-    const totals = { FR: 0, SO: 0, JR: 0, SR: 0, Total: 0 };
+    // Initialize a data structure to hold the counts, with classes as the primary key.
+    const distribution = {
+        FR: { Total: 0 },
+        SO: { Total: 0 },
+        JR: { Total: 0 },
+        SR: { Total: 0 },
+        Total: { Total: 0 }
+    };
 
+    // Initialize counts for each position to 0.
+    POSITIONS.forEach(pos => {
+        distribution.FR[pos] = 0;
+        distribution.SO[pos] = 0;
+        distribution.JR[pos] = 0;
+        distribution.SR[pos] = 0;
+        distribution.Total[pos] = 0;
+    });
+
+    // Populate the distribution object with counts from the roster data.
     rosterData.forEach(player => {
         const baseClass = getBaseClass(player.year);
-        if (distribution[player.position] && baseClass) {
-            distribution[player.position][baseClass]++;
-            distribution[player.position].Total++;
-            totals[baseClass]++;
-            totals.Total++;
+        if (distribution[baseClass] && POSITIONS.includes(player.position)) {
+            distribution[baseClass][player.position]++;
+            distribution[baseClass].Total++;
+            distribution.Total[player.position]++;
+            distribution.Total.Total++;
         }
     });
 
-    table.innerHTML = `
+    // Generate the table header with all positions.
+    const headerHtml = `
         <thead>
             <tr>
-                <th>Position</th>
-                <th>FR</th>
-                <th>SO</th>
-                <th>JR</th>
-                <th>SR</th>
+                <th>Class</th>
+                ${POSITIONS.map(pos => `<th>${pos}</th>`).join('')}
                 <th>Total</th>
             </tr>
         </thead>
+    `;
+
+    // Generate the table body, with one row for each class.
+    const bodyHtml = `
         <tbody>
-            ${POSITIONS.map(pos => `
+            ${CLASSES.map(cls => `
                 <tr>
-                    <td class="pos-header">${pos}</td>
-                    <td>${distribution[pos].FR}</td>
-                    <td>${distribution[pos].SO}</td>
-                    <td>${distribution[pos].JR}</td>
-                    <td>${distribution[pos].SR}</td>
-                    <td>${distribution[pos].Total}</td>
+                    <td class="pos-header">${cls}</td>
+                    ${POSITIONS.map(pos => `<td>${distribution[cls][pos]}</td>`).join('')}
+                    <td class="font-bold">${distribution[cls].Total}</td>
                 </tr>
             `).join('')}
             <tr class="font-bold">
                 <td class="pos-header">Total</td>
-                <td>${totals.FR}</td>
-                <td>${totals.SO}</td>
-                <td>${totals.JR}</td>
-                <td>${totals.SR}</td>
-                <td>${totals.Total}</td>
+                ${POSITIONS.map(pos => `<td>${distribution.Total[pos]}</td>`).join('')}
+                <td>${distribution.Total.Total}</td>
             </tr>
         </tbody>
     `;
+
+    table.innerHTML = headerHtml + bodyHtml;
 }
 
 function openPlayerModal(player = null) {
@@ -561,6 +613,7 @@ async function openPlayerCardModal(playerId, historicalPlayer = null) {
 }
 
 // --- Depth Chart Page ---
+// --- Depth Chart Page ---
 function renderDepthChartPage() {
     const page = document.getElementById('depth-chart-page');
     if (!page) return;
@@ -586,7 +639,7 @@ function renderDepthChartPage() {
                             <h5 class="depth-chart-card-title">${pos}</h5>
                             <ol class="depth-chart-list">
                                 ${players.map((player, index) => `
-                                    <li class="depth-chart-list-item">
+                                    <li class="depth-chart-list-item ${player.isRedshirted ? 'player-redshirted' : ''}">
                                         <span class="depth-chart-player-rank">${index + 1}.</span>
                                         <div class="depth-chart-player-info">
                                             <span class="depth-chart-player-name"><span class="depth-chart-player-jersey">#${player.jersey}</span>${player.firstName} ${player.lastName}</span>
