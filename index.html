@@ -9,20 +9,33 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body class="bg-gray-900 text-white antialiased">
 
-    <!-- App Container -->
+    <div id="dynasty-info-box" class="hidden">
+        <div class="flex items-center gap-3">
+            <div>
+                <p id="info-box-coach" class="font-bold text-sm"></p>
+                <div class="flex items-center gap-2">
+                    <img id="info-box-logo" src="" alt="Team Logo" class="h-6 w-6 object-contain">
+                    <p id="info-box-team" class="text-xs"></p>
+                </div>
+            </div>
+            <div class="border-l border-gray-600 pl-3 text-center">
+                <p id="info-box-year" class="font-bold text-lg"></p>
+                <p id="info-box-week" class="text-xs text-gray-400"></p>
+            </div>
+        </div>
+    </div>
+
     <div id="app-container" class="min-h-screen p-4">
 
-        <!-- Auth View (Login/Register) -->
         <div id="auth-view" class="view active w-full max-w-md mx-auto">
-            <!-- Header -->
             <div class="text-center mb-8">
                 <h1 class="text-4xl md:text-5xl font-bold text-white">College Football 26</h1>
                 <h2 class="text-2xl md:text-3xl font-semibold text-blue-400">Dynasty Tracker</h2>
             </div>
-            <!-- Login/Register forms -->
             <div id="login-form-container" class="bg-gray-800 p-8 rounded-lg shadow-lg">
                 <h3 class="text-2xl font-bold mb-6 text-center">Sign In</h3>
                 <form id="login-form"><div class="mb-4"><label for="login-email" class="block text-gray-300 mb-2">Email</label><input type="email" id="login-email" class="w-full input-field" required></div><div class="mb-6"><label for="login-password" class="block text-gray-300 mb-2">Password</label><input type="password" id="login-password" class="w-full input-field" required></div><button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition duration-300">Login</button></form>
@@ -35,46 +48,52 @@
             </div>
         </div>
 
-        <!-- Main App View (Dashboard of all Dynasties) -->
         <div id="app-view" class="view w-full max-w-4xl mx-auto">
             <div class="bg-gray-800 p-8 rounded-lg shadow-lg"><div class="flex justify-between items-center mb-6"><div><h3 class="text-2xl font-bold">Welcome!</h3><p class="text-gray-400" id="user-email-display"></p></div><button id="logout-button" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md transition duration-300">Logout</button></div><div class="border-t border-gray-700 pt-6"><div class="flex justify-between items-center mb-4"><h4 class="text-xl font-semibold">Your Dynasties</h4><button id="create-dynasty-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">+ Create New Dynasty</button></div><div id="dynasties-list" class="mt-4 space-y-3"></div></div></div>
         </div>
 
-        <!-- Dynasty-Specific View -->
         <div id="dynasty-view" class="view w-full max-w-7xl mx-auto">
             <div class="flex flex-col md:flex-row gap-6">
-                <!-- Left Nav Panel -->
-                <div class="w-full md:w-1/4 lg:w-1/5 bg-gray-800 p-4 rounded-lg shadow-lg"><button id="back-to-dynasties-btn" class="w-full text-left mb-4 text-blue-400 hover:underline">&larr; Back to All Dynasties</button><h3 id="dynasty-nav-title" class="text-xl font-bold mb-4 border-b border-gray-700 pb-2"></h3><nav id="dynasty-nav" class="space-y-2"><a href="#" class="nav-link" data-page="schedule-page">Schedule</a><a href="#" class="nav-link" data-page="roster-page">Roster</a><a href="#" class="nav-link" data-page="recruiting-page">Recruiting</a><a href="#" class="nav-link" data-page="coach-info-page">Coach Info</a></nav></div>
-                <!-- Main Content Panel -->
-                <div class="w-full md:w-3/4 lg:w-4/5 bg-gray-800 p-6 rounded-lg shadow-lg">
-                    <!-- Schedule Page Content -->
-                    <div id="schedule-page" class="dynasty-page">
-                        <div class="flex items-center gap-4 mb-6">
-                            <img id="schedule-team-logo" src="" alt="Team Logo" class="h-16 w-16 object-contain">
-                            <div>
-                                <h2 id="schedule-team-name" class="text-3xl font-bold"></h2>
-                                <div class="flex items-center gap-4">
-                                    <p id="schedule-year" class="text-xl text-gray-400"></p>
-                                    <p id="schedule-record" class="text-xl font-semibold"></p>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="schedule-table" class="space-y-2">
-                            <!-- Schedule rows will be generated by JS -->
-                        </div>
-                    </div>
-                    <!-- Other pages -->
-                     <div id="roster-page" class="dynasty-page"><h2 class="text-2xl font-bold">Roster</h2><p>Roster management coming soon.</p></div>
-                     <div id="recruiting-page" class="dynasty-page"><h2 class="text-2xl font-bold">Recruiting</h2><p>Recruiting board coming soon.</p></div>
-                     <div id="coach-info-page" class="dynasty-page"><h2 class="text-2xl font-bold">Coach Info</h2><p>Coach details coming soon.</p></div>
+                <div class="w-full md:w-1/4 lg:w-1/5 bg-gray-800 p-4 rounded-lg shadow-lg"><button id="back-to-dynasties-btn" class="w-full text-left mb-4 text-blue-400 hover:underline">&larr; Back to All Dynasties</button><h3 id="dynasty-nav-title" class="text-xl font-bold mb-4 border-b border-gray-700 pb-2"></h3>
+                    <nav id="dynasty-nav" class="space-y-1">
+                        <a href="#" class="nav-link" data-page="home-page"><i class="fa-solid fa-house nav-icon"></i>Home</a>
+                        <a href="#" class="nav-link" data-page="schedule-page"><i class="fa-solid fa-calendar-days nav-icon"></i>Schedule</a>
+                        <a href="#" class="nav-link" data-page="roster-page"><i class="fa-solid fa-users nav-icon"></i>Roster</a>
+                        <a href="#" class="nav-link" data-page="depth-chart-page"><i class="fa-solid fa-clipboard-list nav-icon"></i>Depth Chart</a>
+                        <a href="#" class="nav-link" data-page="recruiting-page"><i class="fa-solid fa-star nav-icon"></i>Recruiting</a>
+                        <a href="#" class="nav-link" data-page="transfer-portal-page"><i class="fa-solid fa-right-left nav-icon"></i>Transfer Portal</a>
+                        <a href="#" class="nav-link" data-page="player-stats-page"><i class="fa-solid fa-chart-simple nav-icon"></i>Player Stats</a>
+                        <a href="#" class="nav-link" data-page="school-records-page"><i class="fa-solid fa-book-bookmark nav-icon"></i>School Records</a>
+                        <a href="#" class="nav-link" data-page="trophy-room-page"><i class="fa-solid fa-trophy nav-icon"></i>Trophy Room</a>
+                        <a href="#" class="nav-link" data-page="coaches-page"><i class="fa-solid fa-user-tie nav-icon"></i>Coaches</a>
+                        <a href="#" class="nav-link" data-page="nfl-page"><i class="fa-solid fa-shield-halved nav-icon"></i>Players in the NFL</a>
+                    </nav>
+                </div>
+                <div class="w-full md:w-3/4 lg:w-4/5">
+                    <div id="home-page" class="dynasty-page"></div>
+                    <div id="schedule-page" class="dynasty-page"></div>
+                    <div id="roster-page" class="dynasty-page"></div>
+                    <div id="depth-chart-page" class="dynasty-page"></div>
+                    <div id="recruiting-page" class="dynasty-page"></div>
+                    <div id="transfer-portal-page" class="dynasty-page"></div>
+                    <div id="player-stats-page" class="dynasty-page"><h2 class="text-3xl font-bold">Player Stats</h2><p class="mt-4 text-gray-400">Coming soon.</p></div>
+                    <div id="school-records-page" class="dynasty-page"><h2 class="text-3xl font-bold">School Records</h2><p class="mt-4 text-gray-400">Coming soon.</p></div>
+                    <div id="trophy-room-page" class="dynasty-page"><h2 class="text-3xl font-bold">Trophy Room</h2><p class="mt-4 text-gray-400">Coming soon.</p></div>
+                    <div id="coaches-page" class="dynasty-page"><h2 class="text-3xl font-bold">Coaches</h2><p class="mt-4 text-gray-400">Coming soon.</p></div>
+                    <div id="nfl-page" class="dynasty-page"><h2 class="text-3xl font-bold">Players in the NFL</h2><p class="mt-4 text-gray-400">Coming soon.</p></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modals -->
     <div id="create-dynasty-modal" class="modal"><div class="modal-content"><h3 class="text-2xl font-bold mb-6">Create a New Dynasty</h3><form id="create-dynasty-form"><div class="mb-4"><label for="dynasty-name" class="block text-gray-300 mb-2">Dynasty Name</label><input type="text" id="dynasty-name" class="w-full input-field" required placeholder="e.g., My Georgia Tech Dynasty"></div><p id="dynasty-create-error" class="text-red-500 text-center mb-4"></p><div class="flex justify-end space-x-4"><button type="button" id="cancel-dynasty-creation" class="btn-secondary">Cancel</button><button type="submit" class="btn-primary">Create</button></div></form></div></div>
     <div id="create-coach-modal" class="modal"><div class="modal-content-lg"><h3 class="text-2xl font-bold mb-6">Create Your Coach</h3><form id="create-coach-form" class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4"><div><label for="coach-first-name" class="block text-gray-300 mb-2">First Name</label><input type="text" id="coach-first-name" class="w-full input-field" required></div><div><label for="coach-last-name" class="block text-gray-300 mb-2">Last Name</label><input type="text" id="coach-last-name" class="w-full input-field" required></div><div class="md:col-span-2"><label for="coach-hometown" class="block text-gray-300 mb-2">Hometown</label><input type="text" id="coach-hometown" class="w-full input-field" required placeholder="e.g., Atlanta, GA"></div><div><label for="coach-alma-mater" class="block text-gray-300 mb-2">Alma Mater</label><select id="coach-alma-mater" class="w-full input-field" required></select></div><div><label for="coach-age" class="block text-gray-300 mb-2">Age</label><input type="number" id="coach-age" class="w-full input-field" required min="22" max="80" value="45"></div><div><label for="coach-job" class="block text-gray-300 mb-2">Starting Job</label><select id="coach-job" class="w-full input-field" required><option value="HC">Head Coach (HC)</option><option value="OC">Offensive Coordinator (OC)</option><option value="DC">Defensive Coordinator (DC)</option></select></div><div><label for="coach-school" class="block text-gray-300 mb-2">Team</label><select id="coach-school" class="w-full input-field" required></select></div><p id="coach-create-error" class="text-red-500 text-center md:col-span-2"></p><div class="md:col-span-2 flex justify-end space-x-4 mt-4"><button type="button" id="cancel-coach-creation" class="btn-secondary">Cancel</button><button type="submit" class="btn-primary">Start Career</button></div></form></div></div>
+    <div id="confirm-advance-season-modal" class="modal"><div class="modal-content"><h3 class="text-2xl font-bold mb-4">Start New Season?</h3><p class="text-gray-300 mb-6">This is your last chance to edit any stats, info, or results for the current season. Once you start a new season, the schedule will be cleared and all commits will be added to the roster.</p><p id="advance-season-error" class="text-red-500 text-center mb-4"></p><div class="flex justify-end space-x-4"><button type="button" id="cancel-advance-season" class="btn-secondary">Cancel</button><button type="button" id="confirm-advance-season-btn" class="btn-primary bg-green-600 hover:bg-green-700">Confirm & Start New Season</button></div></div></div>
+    <div id="player-modal" class="modal"><div class="modal-content-lg"><h3 id="player-modal-title" class="text-2xl font-bold mb-6">Add New Player</h3><form id="player-form" class="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-4"><div><label for="player-first-name" class="label">First Name</label><input type="text" id="player-first-name" class="input-field" required></div><div><label for="player-last-name" class="label">Last Name</label><input type="text" id="player-last-name" class="input-field" required></div><div><label for="player-jersey" class="label">Jersey #</label><input type="number" id="player-jersey" class="input-field" min="1" max="99" required></div><div><label for="player-position" class="label">Position</label><select id="player-position" class="input-field" required></select></div><div><label for="player-year" class="label">Year</label><select id="player-year" class="input-field" required></select></div><div><label for="player-rating" class="label">Rating</label><input type="number" id="player-rating" class="input-field" min="40" max="99" required></div><div><label for="player-height" class="label">Height</label><select id="player-height" class="input-field" required></select></div><div><label for="player-weight" class="label">Weight</label><input type="number" id="player-weight" class="input-field" min="150" max="400" required></div><div class="md:col-span-3"><label for="player-hometown" class="label">Hometown</label><input type="text" id="player-hometown" class="input-field" placeholder="e.g., Atlanta, GA"></div><input type="hidden" id="player-id"><div class="md:col-span-3 flex justify-end space-x-4 mt-4"><button type="button" id="cancel-player-form" class="btn-secondary">Cancel</button><button type="submit" class="btn-primary">Save Player</button></div></form></div></div>
+    <div id="player-card-modal" class="modal"><div class="modal-content-lg"><div id="player-card-content"></div></div></div>
+    <div id="recruiting-modal" class="modal"><div class="modal-content-lg"><h3 id="recruit-modal-title" class="text-2xl font-bold mb-6">Add New Commit</h3><form id="recruit-form" class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4"><div><label for="recruit-first-name" class="label">First Name</label><input type="text" id="recruit-first-name" class="input-field" required></div><div><label for="recruit-last-name" class="label">Last Name</label><input type="text" id="recruit-last-name" class="input-field" required></div><div><label for="recruit-position" class="label">Position</label><select id="recruit-position" class="input-field" required></select></div><div class="flex items-center space-x-2"><div><label for="recruit-natl-rank" class="label">Natl. Rank</label><input type="number" id="recruit-natl-rank" class="input-field" min="1"></div><div><label for="recruit-pos-rank" class="label">Pos. Rank</label><input type="number" id="recruit-pos-rank" class="input-field" min="1"></div></div><div><label for="recruit-hometown" class="label">Hometown</label><input type="text" id="recruit-hometown" class="input-field" placeholder="e.g., Atlanta, GA"></div><div class="flex items-center space-x-2"><div><label for="recruit-height" class="label">Height</label><select id="recruit-height" class="input-field" required></select></div><div><label for="recruit-weight" class="label">Weight</label><input type="number" id="recruit-weight" class="input-field" min="150" max="400" required></div></div><div class="md:col-span-2"><label class="label">Star Rating</label><div id="recruit-star-rating" class="flex items-center text-2xl text-gray-500"><i class="fa-regular fa-star star-icon cursor-pointer" data-value="1"></i><i class="fa-regular fa-star star-icon cursor-pointer" data-value="2"></i><i class="fa-regular fa-star star-icon cursor-pointer" data-value="3"></i><i class="fa-regular fa-star star-icon cursor-pointer" data-value="4"></i><i class="fa-regular fa-star star-icon cursor-pointer" data-value="5"></i></div></div><div class="md:col-span-2"><label class="label">Prospect Type</label><div class="flex gap-4"><label class="flex items-center"><input type="checkbox" id="recruit-is-gem" class="form-checkbox-gem"> <span class="ml-2">Gem</span></label><label class="flex items-center"><input type="checkbox" id="recruit-is-bust" class="form-checkbox-bust"> <span class="ml-2">Bust</span></label></div></div><input type="hidden" id="recruit-id"><div class="md:col-span-2 flex justify-end space-x-4 mt-4"><button type="button" id="cancel-recruit-form" class="btn-secondary">Cancel</button><button type="submit" class="btn-primary">Save Commit</button></div></form></div></div>
+    <div id="transfer-in-modal" class="modal"><div class="modal-content-lg"><h3 class="text-2xl font-bold mb-6">Add Incoming Transfer</h3><form id="transfer-in-form" class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4"><div><label class="label">First Name</label><input type="text" id="transfer-in-first-name" class="input-field" required></div><div><label class="label">Last Name</label><input type="text" id="transfer-in-last-name" class="input-field" required></div><div><label class="label">Position</label><select id="transfer-in-position" class="input-field" required></select></div><div><label class="label">Year</label><select id="transfer-in-year" class="input-field" required></select></div><div class="flex items-center space-x-2"><div><label class="label">Natl. Rank</label><input type="number" id="transfer-in-natl-rank" class="input-field" min="1"></div><div><label class="label">Pos. Rank</label><input type="number" id="transfer-in-pos-rank" class="input-field" min="1"></div></div><div><label class="label">Previous School</label><select id="transfer-in-prev-school" class="input-field" required></select></div><div><label class="label">Hometown</label><input type="text" id="transfer-in-hometown" class="input-field" placeholder="e.g., Atlanta, GA"></div><div class="flex items-center space-x-2"><div><label class="label">Height</label><select id="transfer-in-height" class="input-field" required></select></div><div><label class="label">Weight</label><input type="number" id="transfer-in-weight" class="input-field" min="150" max="400" required></div></div><div class="md:col-span-2"><label class="label">Star Rating</label><div id="transfer-in-star-rating" class="flex items-center text-2xl text-gray-500"><i class="fa-regular fa-star star-icon cursor-pointer" data-value="1"></i><i class="fa-regular fa-star star-icon cursor-pointer" data-value="2"></i><i class="fa-regular fa-star star-icon cursor-pointer" data-value="3"></i><i class="fa-regular fa-star star-icon cursor-pointer" data-value="4"></i><i class="fa-regular fa-star star-icon cursor-pointer" data-value="5"></i></div></div><div class="md:col-span-2 flex justify-end space-x-4 mt-4"><button type="button" id="cancel-transfer-in-form" class="btn-secondary">Cancel</button><button type="submit" class="btn-primary">Add Transfer</button></div></form></div></div>
+    <div id="transfer-out-modal" class="modal"><div class="modal-content"><h3 class="text-2xl font-bold mb-6">Log Outgoing Transfer</h3><form id="transfer-out-form"><div><label class="label">Select Player from Roster</label><select id="transfer-out-player" class="input-field" required></select></div><div class="mt-4"><label class="label">New School</label><select id="transfer-out-new-school" class="input-field" required></select></div><div class="flex justify-end space-x-4 mt-6"><button type="button" id="cancel-transfer-out-form" class="btn-secondary">Cancel</button><button type="submit" class="btn-primary bg-red-600 hover:bg-red-700">Confirm Transfer</button></div></form></div></div>
 
     <script type="module" src="script.js"></script>
 </body>
