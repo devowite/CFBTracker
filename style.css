@@ -137,7 +137,3 @@ body {
 .custom-select-option { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; cursor: pointer; }
 .custom-select-option:hover { background-color: #4B5563; }
 .custom-select-option img { height: 1.5rem; width: 1.5rem; object-fit: contain; }
-
-/* Dynasty Info Box */
-#dynasty-info-box { position: fixed; top: 1rem; right: 1rem; background-color: #1F2937; padding: 0.75rem 1rem; border-radius: 0.5rem; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05); z-index: 40; }
-#dynasty-info-box.hidden { display: none; }
