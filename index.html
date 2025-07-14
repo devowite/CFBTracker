@@ -13,22 +13,6 @@
 </head>
 <body class="bg-gray-900 text-white antialiased">
 
-    <div id="dynasty-info-box" class="hidden">
-        <div class="flex items-center gap-3">
-            <div>
-                <p id="info-box-coach" class="font-bold text-sm"></p>
-                <div class="flex items-center gap-2">
-                    <img id="info-box-logo" src="" alt="Team Logo" class="h-6 w-6 object-contain">
-                    <p id="info-box-team" class="text-xs"></p>
-                </div>
-            </div>
-            <div class="border-l border-gray-600 pl-3 text-center">
-                <p id="info-box-year" class="font-bold text-lg"></p>
-                <p id="info-box-week" class="text-xs text-gray-400"></p>
-            </div>
-        </div>
-    </div>
-
     <div id="app-container" class="min-h-screen p-4">
 
         <div id="auth-view" class="view active w-full max-w-md mx-auto">
@@ -54,7 +38,26 @@
 
         <div id="dynasty-view" class="view w-full max-w-7xl mx-auto">
             <div class="flex flex-col md:flex-row gap-6">
-                <div class="w-full md:w-1/4 lg:w-1/5 bg-gray-800 p-4 rounded-lg shadow-lg"><button id="back-to-dynasties-btn" class="w-full text-left mb-4 text-blue-400 hover:underline">&larr; Back to All Dynasties</button><h3 id="dynasty-nav-title" class="text-xl font-bold mb-4 border-b border-gray-700 pb-2"></h3>
+                <div class="w-full md:w-1/4 lg:w-1/5 bg-gray-800 p-4 rounded-lg shadow-lg">
+                    <button id="back-to-dynasties-btn" class="w-full text-left mb-4 text-blue-400 hover:underline">&larr; Back to All Dynasties</button>
+                    
+                    <div id="dynasty-info-box" class="hidden mb-4 pb-4 border-b border-gray-700">
+                        <div class="flex items-center gap-3">
+                            <div>
+                                <p id="info-box-coach" class="font-bold text-sm"></p>
+                                <div class="flex items-center gap-2">
+                                    <img id="info-box-logo" src="" alt="Team Logo" class="h-6 w-6 object-contain">
+                                    <p id="info-box-team" class="text-xs"></p>
+                                </div>
+                            </div>
+                            <div class="border-l border-gray-600 pl-3 text-center">
+                                <p id="info-box-year" class="font-bold text-lg"></p>
+                                <p id="info-box-week" class="text-xs text-gray-400"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 id="dynasty-nav-title" class="text-xl font-bold mb-4 border-b border-gray-700 pb-2"></h3>
                     <nav id="dynasty-nav" class="space-y-1">
                         <a href="#" class="nav-link" data-page="home-page"><i class="fa-solid fa-house nav-icon"></i>Home</a>
                         <a href="#" class="nav-link" data-page="schedule-page"><i class="fa-solid fa-calendar-days nav-icon"></i>Schedule</a>
